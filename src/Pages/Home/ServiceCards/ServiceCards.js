@@ -27,11 +27,11 @@ const ServiceCards = () => {
   ]
   return (
     <>
-      <div className="text-center mt-28 mb-20">
+      <div className="text-center mt-28 mb-20 space-y-2">
         <h4 className="uppercase text-xl text-secondary font-bold">Our Services</h4>
         <h2 className="text-4xl">Services We Provide</h2>
       </div>
-      <div className="grid mt-8 gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
+      <div className="grid mt-8 gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
         {
           serviceData.map(service => <ServiceCard
             key={service.id}
