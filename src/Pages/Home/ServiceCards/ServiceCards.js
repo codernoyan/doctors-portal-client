@@ -13,13 +13,13 @@ const ServiceCards = () => {
       icon: fluoride
     },
     {
-      id: 1,
+      id: 2,
       title: 'Cavity Filling',
       description: 'Patient can checkup their their teeth and if there is any cavity problem in teeth, then fill it quickly.',
       icon: cavity
     },
     {
-      id: 1,
+      id: 3,
       title: 'Teeth Whitening',
       description: 'Patient can checkup their their teeth and if there is any dark problem in teeth, then repair it quickly.',
       icon: whitening
