@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ const Login = () => {
           </div>
           <input className="btn btn-accent w-full" value="Login" type="submit" />
         </form>
-        <p className="text-center">New to Doctors Portal? <Link className="text-secondary font-bold" to="/signup">Create new account</Link></p>
+        <p className="text-center">New to Doctors Portal? <Link className="text-secondary font-bold underline decoration-secondary hover:decoration-2" to="/signup">Create new account</Link></p>
         <div className="divider">OR</div>
         <button className="btn btn-outline w-full">CONTINUE WITH GOOGLE</button>
       </div>
