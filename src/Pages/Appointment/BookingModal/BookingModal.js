@@ -1,19 +1,50 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
-const BookingModal = ({ treatment, selectedDate }) => {
-  const { name, slots } = treatment;
+const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
+  const { name: treatmentName, slots } = treatment;
   const date = format(selectedDate, 'PP');
+  const { user } = useContext(AuthContext);
 
   const handleBooking = (event) => {
     event.preventDefault();
     const form = event.target;
     const slot = form.slot.value;
     const name = form.name.value;
-    const email = form.email.value;
-    const phone = form.phone.value;
-    
-    console.log(slot, name, email, phone);
+    const email = form?.email?.value;
+    const phone = form?.phone?.value;
+
+    const booking = {
+      appointmentDate: date,
+      treatment: treatmentName,
+      patient: name,
+      slot,
+      email,
+      phone
+    };
+
+    fetch('http://localhost:5000/bookings', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(booking)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.acknowledged) {
+          toast.success('Booking Confirmed');
+          setTreatment(null);
+          refetch();
+        } else {
+          toast.error(data.message);
+        }
+      })
+
+    console.log(booking);
   }
 
   return (
@@ -22,18 +53,18 @@ const BookingModal = ({ treatment, selectedDate }) => {
       <div className="modal">
         <div className="modal-box relative">
           <label htmlFor="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-          <h3 className="text-lg font-bold">{name}</h3>
-          <form onClick={handleBooking} className="grid grid-cols-1 gap-3 mt-10">
+          <h3 className="text-lg font-bold">{treatmentName}</h3>
+          <form onSubmit={handleBooking} className="grid grid-cols-1 gap-3 mt-10">
             <input type="text" disabled value={date} className="input input-bordered w-full" />
-            <select name="slot" className="select select-bordered w-full">              
+            <select name="slot" className="select select-bordered w-full">
               {
                 slots.map(slot => <option value={slot}>{slot}</option>)
               }
             </select>
-            <input name="name" type="text" placeholder="Your Name" className="input input-bordered w-full" />
-            <input name="email" type="text" placeholder="Email Address" className="input input-bordered w-full" />
+            <input name="name" type="text" defaultValue={user?.displayName} disabled placeholder="Your Name" className="input input-bordered w-full" />
+            <input name="email" type="text" defaultValue={user?.email} disabled placeholder="Email Address" className="input input-bordered w-full" />
             <input name="phone" type="text" placeholder="Phone Number" className="input input-bordered w-full" />
-            <button className="w-full btn btn-accent" type="submit">Submit</button>
+            <button type="submit" className="w-full btn btn-accent" >Submit</button>
           </form>
         </div>
       </div>
