@@ -23,7 +23,8 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const updateUserProfile = (name) => { 
+  const updateUserProfile = (name) => {
+    setLoading(true);
     return updateProfile(auth.currentUser, {
       displayName: name
     });
